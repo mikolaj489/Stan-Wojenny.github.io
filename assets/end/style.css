@@ -1,0 +1,121 @@
+html, body{
+    font-family: Georgia, serif;
+    margin:0 auto;
+    width: 100%;
+    max-width: 1200px;
+    font-size: 16px;
+    color: white;
+    background-color: #212121;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+ul{
+    margin: 0;
+    padding: 0;
+}
+h2{
+    font-size: 2rem;
+}
+h2, p{
+    text-align: center;
+    display: block;
+}
+h3{
+    font-size: 1.2rem;
+}
+#authors div{
+    text-align: center;
+    display: block;
+}
+#authors p{
+    margin:0;
+}
+.line{
+    height: 1px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.267);
+    margin-bottom: 24px;
+    display: block;
+}
+.line2{
+    height: 1px;
+    width: 800px;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 15px;
+    display: block;
+    margin: 0 auto 40px auto;
+}
+.line-break{
+    display: none;
+}
+#authors {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    gap: 1em; 
+    padding-bottom: 30px;
+}
+
+.authors-content {
+    color: black;
+    width: 230px;
+    height: 270px;
+    padding: 0.8em;
+    background: #f5f5f5;
+    border-radius: 10px;
+    box-sizing: border-box; 
+    box-shadow: 0 1px 3px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(255, 255, 255, 0.452);
+}
+.authors-content > div{
+    background-color: #ffcaa6;
+    border-radius: 10px;
+    padding: 10px 0;
+}
+#sources{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    gap: 1em; 
+    padding-bottom: 30px;
+}
+#sources > div{
+    background: #f5f5f5;
+    width: 200px;
+    height: 200px;
+    color: black;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(255, 255, 255, 0.452);
+}
+#sources > div > div{
+    margin-bottom: 10px;
+}
+#sources > div, #sources > div > div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#sources p{
+    margin: 30px 0 25px 0;
+    font-size: 1.5rem;
+}
+#sources > div > img{
+    width: 50px;
+    width: auto;
+}
+@media screen and (max-width: 600px) {
+    #sources > div {
+        flex: 0 0 45%; 
+    }
+    .authors-content{
+         flex: 0 0 45%; 
+    }
+    .line-break{
+        display: block;
+    }
+    .line{
+       margin-bottom: 5px;
+    }
+}
+
