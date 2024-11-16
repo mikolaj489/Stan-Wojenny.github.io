@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gra - Przeciąganie</title>
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
             text-align: center;
-            width:100px;
-            height:100px;
-            overflow:hidden;
         }
 
         #plansza {
@@ -30,7 +27,7 @@
         #elementy {
             width: 1040px;
             height: 160px;
-            margin: 0 auto;
+            margin: 20px auto;
             display: flex;
             flex-wrap: wrap;
         }
@@ -51,8 +48,6 @@
         var obecnyElement;
         var innyElement;
 
-        var tury = 0;
-
         window.onload = function() {
             // Plansza 4x5
             for (let r = 0; r < wiersze; r++) {
@@ -60,47 +55,52 @@
                     let element = document.createElement("img");
                     element.src = "img/blank.jpg";
 
-                    element.addEventListener("dragstart", rozpocznijPrzeciaganie); // rozpoczecie przeciagania
-                    element.addEventListener("dragover", pozwolPrzeciaganie);   // przeciaganie elementu
-                    element.addEventListener("dragenter", wejdzWPrzeciagany); // przeciaganie nad innym elementem
-                    element.addEventListener("drop", upuscElement);       // upuszczenie elementu na innym
-                    element.addEventListener("dragend", zakonczPrzeciaganie);     // zakonczenei przeciagania
+                    // Obsługa przeciągania dla komputerów
+                    element.addEventListener("dragstart", rozpocznijPrzeciaganie);
+                    element.addEventListener("dragover", pozwolPrzeciaganie);
+                    element.addEventListener("dragenter", wejdzWPrzeciagany);
+                    element.addEventListener("drop", upuscElement);
+                    element.addEventListener("dragend", zakonczPrzeciaganie);
+
+                    // Obsługa dotyku dla telefonów
+                    element.addEventListener("touchstart", rozpocznijDotyk);
+                    element.addEventListener("touchmove", przesunElement);
+                    element.addEventListener("touchend", zakonczDotyk);
 
                     document.getElementById("plansza").append(element);
                 }
             }
 
-            // Elementy
+            // Tworzenie elementów do przeciągania
             let elementy = [];
             for (let i = 1; i <= wiersze * kolumny; i++) {
-                elementy.push(i.toString()); // dodaj numery "1" do "20" do tablicy (nazwy obrazkow)
+                elementy.push(i.toString());
             }
-            elementy.reverse();
-            for (let i = 0; i < elementy.length; i++) {
-                let j = Math.floor(Math.random() * elementy.length);
-
-                // Zamiana miejscami
-                let temp = elementy[i];
-                elementy[i] = elementy[j];
-                elementy[j] = temp;
-            }
+            elementy = elementy.sort(() => Math.random() - 0.5); // Tasowanie
 
             for (let i = 0; i < elementy.length; i++) {
                 let element = document.createElement("img");
-                element.src = "img/" + elementy[i] + ".png"; 
+                element.src = "img/" + elementy[i] + ".png";
 
-                element.addEventListener("dragstart", rozpocznijPrzeciaganie); 
+                // Obsługa przeciągania dla komputerów
+                element.addEventListener("dragstart", rozpocznijPrzeciaganie);
                 element.addEventListener("dragover", pozwolPrzeciaganie);
-                element.addEventListener("dragenter", wejdzWPrzeciagany); 
-                element.addEventListener("drop", upuscElement);      
-                element.addEventListener("dragend", zakonczPrzeciaganie);     
+                element.addEventListener("dragenter", wejdzWPrzeciagany);
+                element.addEventListener("drop", upuscElement);
+                element.addEventListener("dragend", zakonczPrzeciaganie);
+
+                // Obsługa dotyku dla telefonów
+                element.addEventListener("touchstart", rozpocznijDotyk);
+                element.addEventListener("touchmove", przesunElement);
+                element.addEventListener("touchend", zakonczDotyk);
 
                 document.getElementById("elementy").append(element);
             }
-        }
+        };
 
+        // Obsługa przeciągania myszką
         function rozpocznijPrzeciaganie() {
-            obecnyElement = this; 
+            obecnyElement = this;
         }
 
         function pozwolPrzeciaganie(e) {
@@ -112,19 +112,42 @@
         }
 
         function upuscElement() {
-            innyElement = this; 
+            innyElement = this;
         }
 
         function zakonczPrzeciaganie() {
-            if (obecnyElement.src.includes("blank")) {
-                return;
-            }
+            if (obecnyElement.src.includes("blank")) return;
             let obecnyObraz = obecnyElement.src;
             let innyObraz = innyElement.src;
             obecnyElement.src = innyObraz;
             innyElement.src = obecnyObraz;
         }
 
+        // Obsługa dotyku
+        function rozpocznijDotyk(e) {
+            e.preventDefault();
+            obecnyElement = e.target;
+        }
+
+        function przesunElement(e) {
+            e.preventDefault();
+            let touch = e.touches[0];
+            let elementUnderTouch = document.elementFromPoint(touch.clientX, touch.clientY);
+
+            if (elementUnderTouch && elementUnderTouch.tagName === "IMG") {
+                innyElement = elementUnderTouch;
+            }
+        }
+
+        function zakonczDotyk(e) {
+            e.preventDefault();
+            if (obecnyElement && innyElement) {
+                let obecnyObraz = obecnyElement.src;
+                let innyObraz = innyElement.src;
+                obecnyElement.src = innyObraz;
+                innyElement.src = obecnyObraz;
+            }
+        }
     </script>
 </body>
 </html>
