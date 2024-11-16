@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        }
+
+        #plansza {
+            width: 400px;
+            height: 400px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        #plansza img {
+            width: 79px;
+            height: 79px;
+            border: 0.5px solid rgb(90, 90, 90);
+        }
+
+        #elementy {
+            width: 1040px;
+            height: 160px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        #elementy img {
+            width: 79px;
+            height: 79px;
+        }
+    </style>
+</head>
+<body>
+    <div id="plansza"></div>
+    <div id="elementy"></div>
+    <script>
+        var wiersze = 4;
+        var kolumny = 5;
+
+        var obecnyElement;
+        var innyElement;
+
+        var tury = 0;
+
+        window.onload = function() {
+            // Plansza 4x5
+            for (let r = 0; r < wiersze; r++) {
+                for (let c = 0; c < kolumny; c++) {
+                    let element = document.createElement("img");
+                    element.src = "img/blank.jpg";
+
+                    element.addEventListener("dragstart", rozpocznijPrzeciaganie); // rozpoczecie przeciagania
+                    element.addEventListener("dragover", pozwolPrzeciaganie);   // przeciaganie elementu
+                    element.addEventListener("dragenter", wejdzWPrzeciagany); // przeciaganie nad innym elementem
+                    element.addEventListener("drop", upuscElement);       // upuszczenie elementu na innym
+                    element.addEventListener("dragend", zakonczPrzeciaganie);     // zakonczenei przeciagania
+
+                    document.getElementById("plansza").append(element);
+                }
+            }
+
+            // Elementy
+            let elementy = [];
+            for (let i = 1; i <= wiersze * kolumny; i++) {
+                elementy.push(i.toString()); // dodaj numery "1" do "20" do tablicy (nazwy obrazkow)
+            }
+            elementy.reverse();
+            for (let i = 0; i < elementy.length; i++) {
+                let j = Math.floor(Math.random() * elementy.length);
+
+                // Zamiana miejscami
+                let temp = elementy[i];
+                elementy[i] = elementy[j];
+                elementy[j] = temp;
+            }
+
+            for (let i = 0; i < elementy.length; i++) {
+                let element = document.createElement("img");
+                element.src = "img/" + elementy[i] + ".png"; 
+
+                element.addEventListener("dragstart", rozpocznijPrzeciaganie); 
+                element.addEventListener("dragover", pozwolPrzeciaganie);
+                element.addEventListener("dragenter", wejdzWPrzeciagany); 
+                element.addEventListener("drop", upuscElement);      
+                element.addEventListener("dragend", zakonczPrzeciaganie);     
+
+                document.getElementById("elementy").append(element);
+            }
+        }
+
+        function rozpocznijPrzeciaganie() {
+            obecnyElement = this; 
+        }
+
+        function pozwolPrzeciaganie(e) {
+            e.preventDefault();
+        }
+
+        function wejdzWPrzeciagany(e) {
+            e.preventDefault();
+        }
+
+        function upuscElement() {
+            innyElement = this; 
+        }
+
+        function zakonczPrzeciaganie() {
+            if (obecnyElement.src.includes("blank")) {
+                return;
+            }
+            let obecnyObraz = obecnyElement.src;
+            let innyObraz = innyElement.src;
+            obecnyElement.src = innyObraz;
+            innyElement.src = obecnyObraz;
+        }
+
+    </script>
+</body>
+</html>
