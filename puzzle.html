@@ -148,6 +148,23 @@
                 innyElement.src = obecnyObraz;
             }
         }
+        function rozpocznijPrzeciaganie(e) {
+    obecnyElement = this;
+
+    // Tworzenie podglądu obrazu podczas przeciągania
+    let podglad = document.createElement("img");
+    podglad.src = obecnyElement.src;
+    podglad.style.width = "79px";
+    podglad.style.height = "79px";
+    document.body.appendChild(podglad);
+
+    // Ustawienie niestandardowego podglądu
+    e.dataTransfer.setDragImage(podglad, 40, 40);
+
+    // Usuwanie podglądu po rozpoczęciu przeciągania
+    setTimeout(() => podglad.remove(), 0);
+}
+
     </script>
 </body>
 </html>
