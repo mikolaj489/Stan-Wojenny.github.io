@@ -70,6 +70,11 @@
             }
         };
 
+        // Funkcja sprawdzająca, czy pole jest zajęte
+        function czyPoleJestZajete(pole) {
+            return pole.src && !pole.src.includes("blank");
+        }
+
         // Obsługa przeciągania myszką
         function rozpocznijPrzeciaganie() {
             obecnyElement = this;
@@ -85,6 +90,11 @@
 
         function upuscElement() {
             innyElement = this;
+
+            // Sprawdź, czy pole jest zajęte
+            if (czyPoleJestZajete(innyElement)) {
+                return; // Jeśli pole jest zajęte, przerwij dalsze operacje
+            }
         }
 
         function zakonczPrzeciaganie() {
@@ -93,7 +103,14 @@
             let obecnyObraz = obecnyElement.src;
             let innyObraz = innyElement.src;
 
-            // Zamiana obrazów
+            // Sprawdź, czy pole jest zajęte
+            if (czyPoleJestZajete(innyElement)) {
+                // Cofnij przeciągnięty element, nie wykonuj zamiany obrazów
+                obecnyElement.src = obecnyObraz; // Cofnij element do jego pierwotnego obrazu
+                return;
+            }
+
+            // Zamiana obrazów, jeśli pole nie jest zajęte
             obecnyElement.src = innyObraz;
             innyElement.src = obecnyObraz;
 
@@ -102,7 +119,6 @@
                 obecnyElement.remove(); // Usuń przeciągnięty element z sekcji #elementy
             }
         }
-
 
         // Obsługa dotyku
         function rozpocznijDotyk(e) {
@@ -126,6 +142,13 @@
             if (obecnyElement && innyElement) {
                 let obecnyObraz = obecnyElement.src;
                 let innyObraz = innyElement.src;
+
+                // Sprawdź, czy pole jest zajęte
+                if (czyPoleJestZajete(innyElement)) {
+                    // Cofnij przeciągnięty element, nie wykonuj zamiany obrazów
+                    obecnyElement.src = obecnyObraz; // Cofnij element do jego pierwotnego obrazu
+                    return;
+                }
 
                 // Zamiana obrazów
                 obecnyElement.src = innyObraz;
