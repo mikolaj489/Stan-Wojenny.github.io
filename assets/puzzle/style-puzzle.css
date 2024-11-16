@@ -1,0 +1,56 @@
+body {
+    font-family: Georgia, serif;
+    width: 100%;
+    max-width: 1200px;
+    margin:0 auto;
+}
+::-webkit-scrollbar{
+    width: 1rem;
+}
+::-webkit-scrollbar-track{
+    background: hsl(0, 0%, 79%);
+}
+::-webkit-scrollbar-thumb{
+    background: hsl(0, 0%, 39%);
+}  
+.plansza-container, .elementy-container{
+    display: flex;
+    justify-content: center;
+    padding-top:10px;
+}
+.elementy-container{
+    position: relative;
+}
+#plansza {
+    width: 324px;
+    height: 405px;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid black;
+}
+#plansza img {
+    width: 79px;
+    height: 79px;
+    border: 0.5px solid rgb(90, 90, 90);
+}
+#elementy {
+    width: 100%;
+    max-width: 1000px;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2px;
+}
+#elementy img {
+    width: 79px;
+    height: 79px;
+}
+
+@media screen and (max-width: 600px){
+    #elementy{
+        width: 324px;
+        height: 180px;
+        overflow-y: scroll;
+    }
+}
