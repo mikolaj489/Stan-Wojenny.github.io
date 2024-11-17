@@ -57,7 +57,6 @@ h3{
     gap: 1em; 
     padding-bottom: 30px;
 }
-
 .authors-content {
     color: black;
     width: 230px;
@@ -79,8 +78,12 @@ h3{
     justify-content: center; 
     gap: 1em; 
     padding-bottom: 30px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
 }
-#sources > div{
+
+.sources-content{
     background: #f5f5f5;
     width: 200px;
     height: 200px;
@@ -88,10 +91,10 @@ h3{
     border-radius: 10px;
     box-shadow: 0 1px 3px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(255, 255, 255, 0.452);
 }
-#sources > div > div{
+.authors-content-exception{
     margin-bottom: 10px;
 }
-#sources > div, #sources > div > div{
+.sources-content, .authors-content-exception{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -100,16 +103,17 @@ h3{
     margin: 30px 0 25px 0;
     font-size: 1.5rem;
 }
-#sources > div > img{
+.sources-img{
     width: 50px;
     width: auto;
 }
 @media screen and (max-width: 600px) {
-    #sources > div {
+    .sources-content{
         flex: 0 0 45%; 
     }
     .authors-content{
          flex: 0 0 45%; 
+         height: 280px;
     }
     .line-break{
         display: block;
@@ -117,5 +121,9 @@ h3{
     .line{
        margin-bottom: 5px;
     }
+    .line2{
+        width: 100px;
+    }
+    
 }
 
