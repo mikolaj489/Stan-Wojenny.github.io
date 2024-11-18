@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etap 8</title>
+    <link rel="stylesheet" href="assets/namematching/style-namematching.css">
+
+</head>
+<body>
+    <div id="timer" class="timer">00:30</div>
+    <section>
+        <div class="img-container">
+            <div class="dropzone" data-name="Jerzy Popiełuszko">
+                <img src="assets/namematching/img/1.png">
+                <span>Upuść tutaj</span>
+            </div>
+            <div class="dropzone" data-name="Lech Wałęsa">
+                <img src="assets/namematching/img/2.png">
+                <span>Upuść tutaj</span>
+            </div>
+            <div class="dropzone" data-name="Andrzej Gwiazda">
+                <img src="assets/namematching/img/3.png">
+                <span>Upuść tutaj</span>
+            </div>
+            <div class="dropzone" data-name="Jacek Kuroń">
+                <img src="assets/namematching/img/4.png">
+                <span>Upuść tutaj</span>
+            </div>
+        </div>
+        <div id="result" class="result-contaier">
+            <h2>Wygrałeś/aś</h2>
+        </div>
+        <div id="result2" class="result-contaier">
+            <h2>Przegrałeś/aś</h2>
+        </div>
+    </section>
+    <section>
+        <div class="name-container">
+            <div draggable="true" class="draggable">
+                <p>Jerzy Popiełuszko</p>
+            </div>
+            <div draggable="true" class="draggable">
+                <p>Lech Wałęsa</p>
+            </div>
+            <div draggable="true" class="draggable">
+                <p>Andrzej Gwiazda</p>
+            </div>
+            <div draggable="true" class="draggable">
+                <p>Jacek Kuroń</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+const draggables = document.querySelectorAll('.draggable');
+const dropzones = document.querySelectorAll('.dropzone');
+const nameContainer = document.querySelector('.name-container');
+const result = document.getElementById('result'); // Element z komunikatem o wygranej
+const result2 = document.getElementById('result2'); // Element z komunikatem o przegranej
+const totalItems = draggables.length; // Liczba elementów do dopasowania
+let matchedItems = 0; // Liczba poprawnie dopasowanych elementów
+
+// Dodanie timera
+let timer = 5; // 30 sekund
+let timerInterval; // Zmienna przechowująca identyfikator timera
+const timerElement = document.getElementById('timer'); // Element, który będzie wyświetlał czas
+
+// Funkcja do uruchomienia timera
+function startTimer() {
+    timerInterval = setInterval(() => {
+        let minutes = Math.floor(timer / 60);
+        let seconds = timer % 60;
+        // Formatowanie czasu na MM:SS
+        timerElement.textContent = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        
+        if (timer <= 0) {
+            clearInterval(timerInterval); // Zatrzymanie timera, gdy czas minie
+            if (matchedItems < totalItems) { // Jeśli nie wszystkie elementy zostały dopasowane
+                result2.style.display = 'flex'; // Wyświetlenie komunikatu o przegranej
+                blockGame(); // Zablokowanie interakcji po przegranej
+            }
+        }
+        timer--;
+    }, 1000); // Co 1 sekundę
+}
+
+// Funkcja do tasowania elementów w name-container
+function shuffleNames() {
+    const names = Array.from(nameContainer.children);
+    for (let i = names.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        nameContainer.appendChild(names[j]);
+    }
+}
+
+// Funkcja do znalezienia dropzone na podstawie współrzędnych dotyku
+function findDropzone(x, y) {
+    return Array.from(dropzones).find(dropzone => {
+        const rect = dropzone.getBoundingClientRect();
+        return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+    });
+}
+
+// Funkcja do obsługi poprawnego dopasowania
+function dropElement(draggable, dropzone) {
+    const personName = draggable.textContent.trim();
+    const correctName = dropzone.dataset.name;
+
+    if (personName === correctName) {
+        // Dodanie nazwiska do pola z obrazkiem
+        if (!dropzone.querySelector('.name-label')) {
+            const nameLabel = document.createElement('span');
+            nameLabel.classList.add('name-label');
+            nameLabel.textContent = personName;
+            nameLabel.style.color = "#181818"; // Kolor tekstu
+            nameLabel.style.backgroundColor = "white"; // Kolor tła
+            dropzone.appendChild(nameLabel);
+        }
+
+        // Usunięcie tekstu "Upuść tutaj"
+        const spanToRemove = dropzone.querySelector('span');
+        if (spanToRemove && spanToRemove.textContent === 'Upuść tutaj') {
+            spanToRemove.remove();
+        }
+
+        // Zablokowanie możliwości przeciągania
+        draggable.setAttribute('draggable', 'false');
+        draggable.style.cursor = 'default';
+
+        // Usunięcie odpowiedniego div z name-container
+        const nameDiv = Array.from(nameContainer.children).find(div => div.textContent.trim() === personName);
+        if (nameDiv) {
+            nameDiv.remove();
+        }
+
+        // Zwiększamy liczbę dopasowanych elementów
+        matchedItems++;
+
+        // Sprawdzamy, czy wszystkie elementy zostały dopasowane
+        if (matchedItems === totalItems) {
+            // Jeśli wszystkie elementy zostały dopasowane, wyświetlamy wynik
+            result.style.display = 'flex';
+            clearInterval(timerInterval); // Zatrzymanie timera, jeśli wszystkie elementy dopasowane
+        }
+    } else {
+        // Jeśli dopasowanie jest błędne, nie robimy nic - po prostu przywracamy element do pierwotnej pozycji
+        draggable.style.position = 'static';
+        draggable.style.left = '';
+        draggable.style.top = '';
+    }
+}
+
+// Funkcja blokująca interakcję z grą po przegranej
+function blockGame() {
+    // Zablokowanie przeciągania
+    draggables.forEach(draggable => {
+        draggable.setAttribute('draggable', 'false');
+        draggable.style.cursor = 'default';
+    });
+
+    // Zablokowanie dropzones
+    dropzones.forEach(dropzone => {
+        dropzone.removeEventListener('dragover', handleDragOver);
+        dropzone.removeEventListener('dragleave', handleDragLeave);
+        dropzone.removeEventListener('drop', handleDrop);
+    });
+
+    // Zablokowanie dotykowego przeciągania na urządzeniach mobilnych
+    draggables.forEach(draggable => {
+        draggable.removeEventListener('touchstart', handleTouchStart);
+        draggable.removeEventListener('touchmove', handleTouchMove);
+        draggable.removeEventListener('touchend', handleTouchEnd);
+    });
+
+    // Zablokowanie dotyku na urządzeniach mobilnych dla dropzone
+    dropzones.forEach(dropzone => {
+        dropzone.removeEventListener('touchstart', handleDropzoneTouchStart);
+        dropzone.removeEventListener('touchend', handleDropzoneTouchEnd);
+    });
+
+    // Ukrycie całego kontenera z nazwami, gdy czas minie
+    nameContainer.style.display = 'none';
+}
+
+// Funkcje do obsługi dotyku na urządzeniach mobilnych
+function handleTouchStart(e) {
+    e.preventDefault();
+}
+
+function handleTouchMove(e) {
+    e.preventDefault();
+}
+
+function handleTouchEnd(e) {
+    e.preventDefault();
+}
+
+function handleDropzoneTouchStart(e) {
+    e.preventDefault();
+}
+
+function handleDropzoneTouchEnd(e) {
+    e.preventDefault();
+}
+
+// Funkcja do obsługi przeciągania nad dropzone
+function handleDragOver(e) {
+    e.preventDefault();
+    e.target.classList.add('highlight');
+}
+
+// Funkcja do obsługi opuszczenia elementu z dropzone
+function handleDragLeave(e) {
+    e.target.classList.remove('highlight');
+}
+
+// Funkcja do obsługi upuszczenia elementu na dropzone
+function handleDrop(e) {
+    e.preventDefault();
+    e.target.classList.remove('highlight');
+    const draggable = document.querySelector('.dragging');
+    dropElement(draggable, e.target);
+}
+
+draggables.forEach(draggable => {
+    // Obsługa przeciągania myszką
+    draggable.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        draggable.classList.add('dragging');
+        
+        const offsetX = e.clientX - draggable.getBoundingClientRect().left;
+        const offsetY = e.clientY - draggable.getBoundingClientRect().top;
+
+        const handleMouseMove = (e) => {
+            draggable.style.position = 'absolute';
+            draggable.style.left = `${e.clientX - offsetX}px`;
+            draggable.style.top = `${e.clientY - offsetY}px`;
+        };
+
+        const handleMouseUp = (e) => {
+            const dropzone = findDropzone(e.clientX, e.clientY); // Sprawdzamy, gdzie został upuszczony element
+            if (dropzone) {
+                dropElement(draggable, dropzone);
+            } else {
+                // Przywracamy element do pierwotnej pozycji, jeśli nie trafił w dropzone
+                draggable.style.position = 'static';
+                draggable.style.left = '';
+                draggable.style.top = '';
+            }
+            draggable.classList.remove('dragging');
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+    });
+
+    // Obsługa dotyku na urządzeniach mobilnych
+    draggable.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        draggable.classList.add('dragging');
+        const touch = e.touches[0];
+        draggable.style.position = 'absolute'; // Umożliwia przemieszczanie
+        draggable.style.left = `${touch.pageX - draggable.offsetWidth / 2}px`;
+        draggable.style.top = `${touch.pageY - draggable.offsetHeight / 2}px`;
+    });
+
+    draggable.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        draggable.style.left = `${touch.pageX - draggable.offsetWidth / 2}px`;
+        draggable.style.top = `${touch.pageY - draggable.offsetHeight / 2}px`;
+    });
+
+    draggable.addEventListener('touchend', (e) => {
+        const touch = e.changedTouches[0];
+        const dropzone = findDropzone(touch.pageX, touch.pageY); // Sprawdzamy, gdzie został upuszczony element
+        if (dropzone) {
+            dropElement(draggable, dropzone);
+        } else {
+            // Przywracamy element do pierwotnej pozycji, jeśli nie trafił w dropzone
+            draggable.style.position = 'static';
+            draggable.style.left = '';
+            draggable.style.top = '';
+        }
+        draggable.classList.remove('dragging');
+    });
+});
+
+dropzones.forEach(dropzone => {
+    dropzone.addEventListener('dragover', handleDragOver);
+    dropzone.addEventListener('dragleave', handleDragLeave);
+    dropzone.addEventListener('drop', handleDrop);
+});
+
+// Rozpoczęcie gry i timera
+shuffleNames();
+startTimer();
+
+
+
+    </script>
+</body>
+</html>
