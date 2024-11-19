@@ -1,0 +1,161 @@
+
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Georgia, serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #212121;
+    overflow: hidden;
+    min-width: 375px;
+}
+
+.game-container {
+    position: relative;
+    width: 83%;
+    height: 80%;
+    background: rgb(214, 212, 212);
+    border: 2px solid #333;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.question {
+position: absolute;
+top: 0px;
+left: 50%;
+width: 90%; /* Zmniejszona szerokość dla lepszego dopasowania */
+height: auto; /* Pozwól na dynamiczne dopasowanie wysokości */
+text-align: center;
+transform: translateX(-50%);
+background-color: rgb(131, 67, 51);
+color: #fff;
+padding: 20px;
+border-radius: 10px;
+font-size: 20px;
+white-space: normal; /* Pozwala na przenoszenie tekstu */
+word-wrap: break-word; /* Łamie długie wyrazy */
+word-break: break-word; /* Dodatkowe łamanie w razie potrzeby */
+z-index: 1;
+}
+
+.options {
+    position: absolute;
+    top: 50px;
+    display: flex;
+    gap:2px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: normal; 
+    word-wrap: break-word; 
+    word-break: break-word;
+  
+}
+
+.option {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    width: 100%;
+    min-width: 100px;
+}
+
+.option:hover {
+    background-color: #555;
+}
+
+.lives {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 20px;
+    color: white
+}
+
+.game-over,
+.win {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    color: green;
+    text-align: center;
+    display: none;
+}
+
+.game-over {
+    color: red;
+}
+
+@keyframes fall {
+    from {
+        top: 50px;
+    }
+    to {
+        top: 100%;
+    }
+}
+
+.falling {
+    animation: fall 7s linear;
+}
+.result-contaier{
+    display: none;
+    position: fixed;
+    background-color: rgba(0, 0, 0,0.8);
+    height: 250px;
+    width: 250px;
+    top: 100px;
+    border-radius:50px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 40px rgba(0, 0, 0,1);
+    color: white;
+    flex-direction: column;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    
+}
+.result-contaier h2{
+    text-align: center;
+  }
+
+.att{
+    text-align: center;
+    margin-bottom:15px;
+    font-size: 10px;
+}
+.button-container a {
+    position: relative;
+    display: inline-block;
+    padding: 10px 10px;
+    text-align: center;
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: rgb(131, 67, 51);
+    background: transparent;
+    cursor: pointer;
+    transition: ease-out 0.5s;
+    border: 2px solid rgb(131, 67, 51);
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 0 rgb(131, 67, 51);
+  }
+  .button-container  a:hover {
+    color: white;
+    box-shadow: inset 0 -100px 0 0 rgb(131, 67, 51);
+  }
+  .button-container a:active {
+    transform: scale(0.9);
+  }
+ 
