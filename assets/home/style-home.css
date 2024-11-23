@@ -30,6 +30,7 @@ video{
     border-radius: 20px;
     padding: 60px;
     z-index: 2;
+    position: sticky;
 }
 a {
     position: relative;
