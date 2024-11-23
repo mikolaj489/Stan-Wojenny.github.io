@@ -8,14 +8,28 @@
 </head>
 <body>
     <section class="main">
-        <video nocontrols autoplay loop muted>
+        <video autoplay loop muted>
             <source src="assets/home/Background-Footage.mp4" type="video/mp4">
         </video>
-        <div class="main-content">
-            <h1>Stan Wojenny</h1>
-            <p>Wykonaj 8 etapów dotyczących z sytuacji w Polsce w latach 1981–1983</p>
-            <div class="button-container"><a href="drag.html"><span>Przejdź do Zadań</span></a></div>
+        <div class="prevent-controls">
+            <div class="main-content">
+                <h1>Stan Wojenny</h1>
+                <p>Wykonaj 8 etapów dotyczących z sytuacji w Polsce w latach 1981–1983</p>
+                <div class="button-container"><a href="drag.html"><span>Przejdź do Zadań</span></a></div>
+            </div>
         </div>
     </section>
+    <script>
+        function removeVideoControls() {
+    const videos = document.querySelectorAll('video');
+
+    videos.forEach(video => {
+        video.controls = false;
+    });
+}
+
+document.addEventListener('DOMContentLoaded', removeVideoControls);
+
+    </script>
 </body>
 </html>
