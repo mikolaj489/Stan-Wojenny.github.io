@@ -25,12 +25,6 @@ video{
     width: 100%;
     height: 100%;
 }
-.main{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
 .main-content{
     background-color: rgba(0, 0, 0, 0.767);
     border-radius: 20px;
@@ -56,6 +50,7 @@ a {
   a:hover {
     color: white;
     box-shadow: inset 0 -100px 0 0 rgb(131, 67, 51);
+   
   }
   a:active {
     transform: scale(0.9);
@@ -67,4 +62,13 @@ a {
         height: 250%;
         transform: translate(-30%, -30%);
     }
+}
+.prevent-controls{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
 }
