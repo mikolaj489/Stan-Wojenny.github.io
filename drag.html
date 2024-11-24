@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etap 1</title>
+  <link rel="stylesheet" href="assets/drag/style-drag.css">
+</head>
+<body>
+  <section>
+    <div style="display: flex;  border: 2px solid rgb(131, 67, 51);background-color: #ccc; color:black;box-shadow:0 0 10px rgb(131, 67, 51);" id="info" class="result-contaier">
+      <h2>Dopasuj pytania do odpowiedzi</h2>
+      <span class="att">UWAGA!<br>Etap rozpocznie sie po klikniecu przycisku</span>
+      <div id="play" class="button-container"><a href="#"><span>Rozpocznij</span></a></div>
+  </div>
+    <div id="timer" class="timer">02:30</div>
+
+    <div id="result" class="result-contaier">
+      <h2>Wygrałeś/aś</h2>
+      <div class="button-container"><a href="yesno.html"><span>Idź dalej</span></a></div>
+  </div>
+  <div id="result2" class="result-contaier">
+      <h2>Przegrałeś/aś</h2>
+      <div class="button-container"><a href="yesno.html"><span>Idź dalej</span></a></div>
+  </div>
+    <div class="elem1-container" id="source">
+      <div id="q1" data-match="a1" class="question">Kto stłumił strajki w m.in. kopalń „Staszic” i Manifest Lipcowy?</div>
+      <div id="q2" data-match="a2" class="question">O której godzinie zapadła decycja o pacyfikacji Strajku w kopalni 'Wujek'?</div>
+      <div id="q3" data-match="a3" class="question">Co zakładał plan pacyfikacji Strajku w kopalni 'Wujek'?</div>
+      <div id="q4" data-match="a4" class="question">Co powiediał płk. Piotr Gębka?</div>
+      <div id="q5" data-match="a5" class="question">W co byli wyposarzeni funkconariusze którzy tłumili powstanie w kopalni 'Wujek'?</div>
+      <div id="q6" data-match="a6" class="question">Kto dowodził akcją pacyfikacji powstania w kopalni 'Wujek'?</div>
+      <div id="q7" data-match="a7" class="question">Czy strajk w kopalni 'Wujek' został spacyfikowany?</div>
+    </div>
+    <div class="elem2-container" id="target">
+      <div id="a1" data-match="q1" class="answer">ZOMO</div>
+      <div id="a2" data-match="q2" class="answer">O 19:00</div>
+      <div id="a3" data-match="q3" class="answer">1471 funkcjonariuszy, 760 żołnierzy,22 czołgów i 44</div>
+      <div id="a4" data-match="q4" class="answer">'Nie widziałem nikogo z gołymi rękami'</div>
+      <div id="a5" data-match="q5" class="answer">Pistolety maszynowe PM-63 Rak</div>
+      <div id="a6" data-match="q6" class="answer">Kazimierz Wilczyński</div>
+      <div id="a7" data-match="q7" class="answer">TAK</div>
+    </div>
+  </section>
+  <script>
+  var gameEnded = true;
+    let timerInterval = null;
+
+     function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith(name + '=')) {
+            return decodeURIComponent(cookie.split('=')[1]);
+        }
+    }
+    return null;
+}
+
+function setCookie(name, value, days) {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expiresString = `expires=${expires.toUTCString()}`;
+
+    // Ustawienie ciasteczka z atrybutem SameSite=None oraz Secure
+    document.cookie = `${name}=${encodeURIComponent(value)}; ${expiresString}; path=/; SameSite=None; Secure`;
+}
+
+
+// Pobieranie liczby wygranych z ciasteczek
+let gameWon = parseInt(getCookie('gameWon'), 10) || 0;
+function incrementWinCookie() {
+    gameWon++;
+    setCookie('gameWon', gameWon, 365); // Zapisz nową wartość
+    console.log(`Liczba wygranych została zwiększona do: ${gameWon}`);
+}
+// Funkcja tasowania elementów w kontenerze
+function shuffle(containerId) {
+  const container = document.getElementById(containerId);
+  const items = Array.from(container.children);
+
+  // Tasowanie za pomocą algorytmu Fisher-Yates
+  for (let i = items.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [items[i], items[j]] = [items[j], items[i]];
+  }
+
+  // Czyszczenie kontenera i dodanie przetasowanych elementów
+  container.innerHTML = '';
+  items.forEach(item => container.appendChild(item));
+}
+
+// Wywołanie tasowania pytań i odpowiedzi po załadowaniu strony
+document.addEventListener('DOMContentLoaded', () => {
+  shuffle('source'); // Losowanie pytań
+  shuffle('target'); // Losowanie odpowiedzi
+});
+
+// Zmienne globalne
+let activeElement = null;
+let matchedCount = 0;
+
+// Pobranie elementów
+const questions = document.querySelectorAll('#source div');
+const answers = document.querySelectorAll('#target div');
+const totalPairs = questions.length;
+
+// Dodanie klasy dla pytań i odpowiedzi
+questions.forEach(question => question.classList.add('question'));
+answers.forEach(answer => answer.classList.add('answer'));
+
+// Obsługa przeciągania dla komputerów
+questions.forEach(item => addDragListeners(item));
+answers.forEach(item => addDragListeners(item));
+
+function addDragListeners(item) {
+  item.addEventListener('mousedown', (e) => {
+    if (gameEnded) return;
+    activeElement = item;
+    item.style.position = 'absolute';
+    item.style.zIndex = '1000';
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (activeElement) {
+      activeElement.style.left = `${e.pageX - activeElement.offsetWidth / 2}px`;
+      activeElement.style.top = `${e.pageY - activeElement.offsetHeight / 2}px`;
+    }
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (activeElement) {
+      handleDrop();
+    }
+  });
+
+  item.addEventListener('touchstart', (e) => {
+    if (gameEnded) return;
+    activeElement = item;
+    item.style.position = 'absolute';
+    item.style.zIndex = '1000';
+  });
+
+  item.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    if (activeElement) {
+      const touch = e.touches[0];
+      activeElement.style.left = `${touch.pageX - activeElement.offsetWidth / 2}px`;
+      activeElement.style.top = `${touch.pageY - activeElement.offsetHeight / 2}px`;
+    }
+  });
+
+  item.addEventListener('touchend', () => {
+    if (activeElement) {
+      handleDrop();
+    }
+  });
+}
+
+// Obsługa upuszczania
+function handleDrop() {
+  const rect = activeElement.getBoundingClientRect();
+  let matched = false;
+
+  const targets = activeElement.classList.contains('question') ? answers : questions;
+
+  targets.forEach(target => {
+    const targetRect = target.getBoundingClientRect();
+
+    if (
+      rect.left < targetRect.right &&
+      rect.right > targetRect.left &&
+      rect.top < targetRect.bottom &&
+      rect.bottom > targetRect.top
+    ) {
+      if (activeElement.dataset.match === target.id) {
+        activeElement.classList.add('hidden');
+        target.classList.add('hidden');
+        matched = true;
+        matchedCount++;
+        checkCompletion();
+      }
+    }
+  });
+
+  if (!matched) {
+    activeElement.style.position = '';
+    activeElement.style.left = '';
+    activeElement.style.top = '';
+    activeElement.style.zIndex = '';
+  }
+
+  activeElement = null;
+}
+
+function checkCompletion() {
+    if (matchedCount === totalPairs) {
+        const resultElement = document.getElementById('result');
+        resultElement.style.display = 'flex'; // Pokaż komunikat o wygranej
+        clearInterval(timerInterval); // Zatrzymanie timera
+        incrementWinCookie(); 
+    }
+}
+
+
+// Timer
+function startTimer(duration, displayId, onFinish) {
+    let timer = duration;
+    const display = document.getElementById(displayId);
+
+    timerInterval = setInterval(() => {
+        const minutes = Math.floor(timer / 60);
+        const seconds = timer % 60;
+
+        display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        if (timer <= 0) {
+            clearInterval(timerInterval); // Zatrzymanie timera
+            if (onFinish) onFinish();
+            gameEnded = true;
+        }
+
+        timer--;
+    }, 1000);
+}
+
+
+// Funkcja zakończenia gry
+function endGame() {
+    document.getElementById('result2').style.display = 'flex';
+    clearInterval(timerInterval); // Zatrzymanie timera, jeśli jeszcze działa
+}
+
+
+// Rozpoczęcie gry
+document.getElementById('play').onclick = function () {
+  document.getElementById('info').style.display = 'none';
+  document.getElementById('play').style.display = 'none';
+  startTimer(150, 'timer', endGame); // Timer na 2:30
+  gameEnded = false;
+};
+
+  </script>
+</body>
+</html>
