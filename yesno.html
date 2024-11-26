@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etap 2</title>
+    <link rel="stylesheet" href="styles/yesno.css">
+</head>
+<body>
+    <div id="cover"></div>
+    <div style="display: flex; border: 2px solid rgb(131, 67, 51);background-color: #ccc; color:black;box-shadow:0 0 10px rgb(131, 67, 51);" id="info" class="result-contaier">
+        <h2>Odpowiedz na pytania</h2>
+        <span class="att">UWAGA!<br>Etap rozpocznie sie po klikniecu przycisku</span>
+        <div id="play" class="button-container"><a href="#"><span>Rozpocznij</span></a></div>
+    </div>
+    <div id="lives">Życia: 3</div>
+    <div class="question-box">
+        <h1 id="question"></h1>
+        <button id="yes-button">Tak</button>
+        <button id="no-button">Nie</button>
+        <p id="feedback"></p>
+        
+        <!-- Pasek postępu -->
+        <div id="progress-bar-container">
+            <div id="progress-bar"></div>
+        </div>
+    </div>
+    <div style="top:210px" id="result" class="result-contaier">
+        <h2>Wygrałeś/aś</h2>
+        <div class="button-container"><a href="memory.html"><span>Idź dalej</span></a></div>
+    </div>
+    <div style="top:210px" id="result2" class="result-contaier">
+        <h2>Przegrałeś/aś</h2>  
+        <div class="button-container"><a href="memory.html"><span>Idź dalej</span></a></div>
+    </div>
+    <script src="scripts/yesno.js"></script>
+</body>
+</html>

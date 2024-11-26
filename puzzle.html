@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etap 6</title>
+    <link rel="stylesheet" href="styles/puzzle.css">
+</head>
+<body>
+    <div style="display: flex;border: 2px solid rgb(131, 67, 51);background-color: #ccc; color:black;box-shadow:0 0 10px rgb(131, 67, 51);" id="info" class="result-contaier">
+        <h2>Ułóż obraz z rozsypanki</h2>
+        <span class="att">UWAGA!<br>Etap rozpocznie sie po klikniecu przycisku</span>
+        <div id="play" class="button-container"><a href="#"><span>Rozpocznij</span></a></div>
+    </div>
+    <div id="timer" class="timer">03:00</div>
+    <section class="plansza-container">
+        <div id="plansza">
+            <div id="slot1"></div>
+            <div id="slot2"></div>
+            <div id="slot3"></div>
+            <div id="slot4"></div>
+            <div id="slot5"></div>
+            <div id="slot6"></div>
+            <div id="slot7"></div>
+            <div id="slot8"></div>
+            <div id="slot9"></div>
+            <div id="slot10"></div>
+            <div id="slot11"></div>
+            <div id="slot12"></div>
+            <div id="slot13"></div>
+            <div id="slot14"></div>
+            <div id="slot15"></div>
+            <div id="slot16"></div>
+            <div id="slot17"></div>
+            <div id="slot18"></div>
+            <div id="slot19"></div>
+            <div id="slot20"></div>
+        </div>
+        <div id="result" class="result-contaier">
+            <h2>Wygrałeś/aś</h2>
+            <div class="button-container"><a href="matching.html"><span>Idź dalej</span></a></div>
+        </div>
+        <div id="result2" class="result-contaier">
+            <h2>Przegrałeś/aś</h2>
+            <div class="button-container"><a href="matching.html"><span>Idź dalej</span></a></div>
+        </div>
+    </section>
+    <section class="elementy-container">
+        <div id="elementy">
+            <img src="assets/puzzle/1.png" draggable="true" id="img1">
+            <img src="assets/puzzle/2.png" draggable="true" id="img2">
+            <img src="assets/puzzle/3.png" draggable="true" id="img3">
+            <img src="assets/puzzle/4.png" draggable="true" id="img4">
+            <img src="assets/puzzle/5.png" draggable="true" id="img5">
+            <img src="assets/puzzle/6.png" draggable="true" id="img6">
+            <img src="assets/puzzle/7.png" draggable="true" id="img7">
+            <img src="assets/puzzle/8.png" draggable="true" id="img8">
+            <img src="assets/puzzle/9.png" draggable="true" id="img9">
+            <img src="assets/puzzle/10.png" draggable="true" id="img10">
+            <img src="assets/puzzle/11.png" draggable="true" id="img11">
+            <img src="assets/puzzle/12.png" draggable="true" id="img12">
+            <img src="assets/puzzle/13.png" draggable="true" id="img13">
+            <img src="assets/puzzle/14.png" draggable="true" id="img14">
+            <img src="assets/puzzle/15.png" draggable="true" id="img15">
+            <img src="assets/puzzle/16.png" draggable="true" id="img16">
+            <img src="assets/puzzle/17.png" draggable="true" id="img17">
+            <img src="assets/puzzle/18.png" draggable="true" id="img18">
+            <img src="assets/puzzle/19.png" draggable="true" id="img19">
+            <img src="assets/puzzle/20.png" draggable="true" id="img20">
+        </div>
+        <div class="scroll-container">
+            <img style="width: 10px; height: 180px;" src="assets/puzzle/scroll.png">
+        </div>
+    </section>
+
+    <script src="scripts/puzzle.js"></script>
+</body>
+</html>

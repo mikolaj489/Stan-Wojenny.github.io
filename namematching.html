@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etap 8</title>
+    <link rel="stylesheet" href="styles/namematching.css">
+</head>
+<body>
+    <div class="lives-container">Życia: <span id="lives-count">2</span></div>
+    <div style="display: flex;border: 2px solid rgb(131, 67, 51);background-color: #ccc; color:black;box-shadow:0 0 10px rgb(131, 67, 51);" id="info" class="result-contaier">
+        <h2>Dopasuj imiona do postaci</h2>
+        <span class="att">UWAGA!<br>Etap rozpocznie się po kliknięciu przycisku</span>
+        <div id="play" class="button-container"><a href="#"><span>Rozpocznij</span></a></div>
+    </div>
+    <div id="timer" class="timer">00:25</div>
+    <section>
+        <div class="img-container">
+            <div class="dropzone" data-name="Jerzy Popiełuszko">
+                <img src="assets/namematching/1.png">
+                <span>Upuść tutaj</span>
+            </div>
+            <div class="dropzone" data-name="Lech Wałęsa">
+                <img src="assets/namematching/2.png">
+                <span>Upuść tutaj</span>
+            </div>
+            <div class="dropzone" data-name="Andrzej Gwiazda">
+                <img src="assets/namematching/3.png">
+                <span>Upuść tutaj</span>
+            </div>
+            <div class="dropzone" data-name="Jacek Kuroń">
+                <img src="assets/namematching/4.png">
+                <span>Upuść tutaj</span>
+            </div>
+        </div>
+        <div id="result" class="result-contaier">
+            <h2>Wygrałeś/aś</h2>
+            <div class="button-container"><a id="nextweb" href="points.html"><span>Idź dalej</span></a></div>
+        </div>
+        <div id="result2" class="result-contaier">
+            <h2>Przegrałeś/aś</h2>  
+            <div class="button-container"><a href="points.html"><span>Idź dalej</span></a></div>
+        </div>
+    </section>
+    <section>
+        <div class="name-container">
+            <div draggable="true" class="draggable">
+                <p>Jerzy Popiełuszko</p>
+            </div>
+            <div draggable="true" class="draggable">
+                <p>Lech Wałęsa</p>
+            </div>
+            <div draggable="true" class="draggable">
+                <p>Andrzej Gwiazda</p>
+            </div>
+            <div draggable="true" class="draggable">
+                <p>Jacek Kuroń</p>
+            </div>
+        </div>
+    </section>
+    <script src="scripts/namematching.js"></script>
+
+</body>
+</html>

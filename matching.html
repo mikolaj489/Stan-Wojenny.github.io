@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etap 7</title>
+    <link rel="stylesheet" href="styles/matching.css">
+</head>
+<body>
+    <div style="display: flex;border: 2px solid rgb(131, 67, 51);background-color: #ccc; color:black;box-shadow:0 0 10px rgb(131, 67, 51);" id="info" class="result-contaier">
+        <h2>Dopasuj elementy</h2>
+        <span class="att">UWAGA!<br>Etap rozpocznie się po kliknięciu przycisku</span>
+        <div id="play" class="button-container"><a href="#"><span>Rozpocznij</span></a></div>
+    </div>
+    <div id="timer" class="timer">03:00</div>
+    <section class="container">
+        <div class="game"></div>
+        <div id="result" class="result-contaier">
+            <h2>Wygrałeś/aś</h2>
+            <div class="button-container"><a id="nextweb" href="namematching.html"><span>Idź dalej</span></a></div>
+        </div>
+        <div id="result2" class="result-contaier">
+            <h2>Przegrałeś/aś</h2>
+            <div class="button-container"><a href="namematching.html"><span>Idź dalej</span></a></div>
+        </div>
+    </section>
+    <script src="scripts/matching.js"></script>
+</body>
+</html>
