@@ -1,4 +1,16 @@
-  // Funkcja do pobierania ciasteczka
+window.onload = function () {
+
+    const navigationEntry = performance.getEntriesByType('navigation')[0];
+    if (navigationEntry.type === 'reload') {
+      window.alert(":)");
+        // Reset the cookie 'gameWon1'
+        setCookie('gameWon1', 0, 1); // Reset value to 0, valid for 1 day
+
+        // Redirect to another page
+        window.location.href = "index.html"; // Change to your page's URL
+    }
+};
+// Funkcja do pobierania ciasteczka
   function getCookie(name) {
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
