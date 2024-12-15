@@ -107,6 +107,32 @@ h3{
     width: 50px;
     width: auto;
 }
+footer p{
+    font-size: 1.4rem;
+}
+footer img,footer a{
+    margin-left: 10px;
+    color: white;
+    text-decoration: underline;
+}
+footer span{
+    display: flex;
+    align-items: center;
+    padding: 3px;
+}
+.web-authors{
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #888888;
+    border-radius: 10px 10px 0 0;
+    padding: 10px;
+}
+.author-contianer{
+    display: flex;
+    justify-content: center;
+    gap:50px;
+}
 @media screen and (max-width: 600px) {
     .sources-content{
         flex: 0 0 45%; 
